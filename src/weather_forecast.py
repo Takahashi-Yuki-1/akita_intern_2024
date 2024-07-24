@@ -24,11 +24,12 @@ def _convert_date_format(date_before):
 
 @dataclasses.dataclass
 class WeatherForecast:
-    date: str       # 日付 [月/日(曜日)]
-    weather_code: int       # 天気コード
-    pop: int        # 降水確率
-    temp_max: int   # 最高気温
-    temp_min: int   # 最低気温
+    _date_raw: str      # 生データの日付
+    # date: str           # 日付 [月/日(曜日)]
+    weather_code: int   # 天気コード
+    pop: int            # 降水確率
+    temp_max: int       # 最高気温
+    temp_min: int       # 最低気温
 
     def __init__(self, date_raw, code, pop_raw, temp_max_raw, temp_min_raw):
         """
@@ -40,9 +41,26 @@ class WeatherForecast:
         :param str temp_min_raw: 最低気温
         """
         # 簡略化した日付フォーマットに変換して保持する
-        self.date = _convert_date_format(date_raw)
+        # self.date = _convert_date_format(date_raw)
+        self._date_raw = date_raw
         # 以下、strをintに変換して保持する
         self.weather_code = int(code or -1)
         self.pop = int(pop_raw or -1)
         self.temp_max = int(temp_max_raw or -1)
         self.temp_min = int(temp_min_raw or -1)
+
+    def date(self):
+        """
+        シンプルな日付文字列を取得する
+        :return: 日付文字列 (ex. 07/23(火))
+        :rtype: str
+        """
+        return _convert_date_format(self._date_raw)
+
+    def weekday(self):
+        """
+        曜日コードを取得する
+        :return: 曜日コード (日=0, 月=1, ..., 土=6)
+        :rtype: int
+        """
+        return datetime.datetime.strptime(self._date_raw, _DATETIME_FORMAT_BEFORE).weekday()

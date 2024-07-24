@@ -14,10 +14,10 @@ def generate_recommend_text(dates):
         if most_recommended_date is None:
             most_recommended_date = date
 
-        if date.priority >= most_recommended_date:
-            most_recommended_date = date.priority
+        if date.recommendation >= most_recommended_date.recommendation:
+            most_recommended_date = date
 
-    if most_recommended_date.priority < 3:
+    if most_recommended_date.recommendation < 3:
         return '出社をおすすめできる日がありません...'
     else:
         return '出社おすすめ日は {} です！'.format(most_recommended_date.string)
@@ -28,9 +28,12 @@ class PrioritizedDate:
     """
     優先度付きの日付クラス. おすすめコメント生成用に情報を一元化
     """
-    def __init__(self, string, priority):
+    string: str
+    recommendation: int
+
+    def __init__(self, string, recommendation):
         self.string = string
-        self.priority = priority
+        self.recommendation = recommendation
 
     @classmethod
     def builder(cls):
@@ -42,22 +45,28 @@ class PrioritizedDate:
         return PrioritizedDate.Builder()
 
     class Builder:
-        string: str
-        priority: int
+        _string: str
+        _recommendation: int
 
         def string(self, string):
             """
             日付の文字列をセットする
             :param str string: 日付文字列
+            :return: ビルダークラス
+            :rtype: PrioritizedDate.Builder
             """
-            self.string = string
+            self._string = string
+            return self
 
-        def priority(self, priority):
+        def recommendation(self, recommendation):
             """
             優先度をセットする
-            :param int priority: 曜日優先度
+            :param int recommendation: 曜日優先度
+            :return: ビルダークラス
+            :rtype: PrioritizedDate.Builder
             """
-            self.priority = priority
+            self._recommendation = recommendation
+            return self
 
         def build(self):
             """
@@ -65,6 +74,6 @@ class PrioritizedDate:
             :return: 優先度付きの日付クラス
             :rtype: RecommendTextGenerator.Date
             """
-            if self.string is None or self.priority is None:
+            if self._string is None or self._recommendation is None:
                 raise ValueError('必須パラメータが設定されていません')
-            return PrioritizedDate(self.string, self.priority)
+            return PrioritizedDate(self._string, self._recommendation)
