@@ -60,7 +60,7 @@ class WeatherForecast:
     def weekday(self):
         """
         曜日コードを取得する
-        :return: 曜日コード (日=0, 月=1, ..., 土=6)
+        :return: 曜日コード (月=0, 火=1, ..., 日=6)
         :rtype: int
         """
         return datetime.datetime.strptime(self._date_raw, _DATETIME_FORMAT_BEFORE).weekday()

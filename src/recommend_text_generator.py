@@ -72,7 +72,7 @@ class PrioritizedDate:
             """
             優先度付きの日付クラスを生成する
             :return: 優先度付きの日付クラス
-            :rtype: RecommendTextGenerator.Date
+            :rtype: PrioritizedDate
             """
             if self._string is None or self._recommendation is None:
                 raise ValueError('必須パラメータが設定されていません')

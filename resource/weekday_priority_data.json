@@ -1,37 +1,37 @@
 [
   {
     "id": 0,
-    "name": "sunday",
-    "priority": 3
+    "name": "monday",
+    "priority": 5
   },
   {
     "id": 1,
-    "name": "monday",
-    "priority": 3
-  },
-  {
-    "id": 2,
     "name": "tuesday",
     "priority": 3
   },
   {
-    "id": 3,
+    "id": 2,
     "name": "wednesday",
     "priority": 3
   },
   {
-    "id": 4,
+    "id": 3,
     "name": "thursday",
     "priority": 3
   },
   {
-    "id": 5,
+    "id": 4,
     "name": "friday",
     "priority": 3
   },
   {
-    "id": 6,
+    "id": 5,
     "name": "saturday",
+    "priority": 3
+  },
+  {
+    "id": 6,
+    "name": "sunday",
     "priority": 3
   }
 ]

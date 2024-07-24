@@ -30,7 +30,7 @@ class WeekdayPriorityManager:
     def get_priority(self, weekday_id):
         """
         指定した曜日の優先度を取得する
-        :param int weekday_id: 曜日 (日=0, 月=1, ..., 土=6)
+        :param int weekday_id: 曜日 (月=0, 火=1, ..., 日=6)
         :return: 優先度
         :rtype: int
         :raise ValueError: 引数の値が不正
@@ -57,7 +57,7 @@ class WeekdayPriorityManager:
     def set_priority(self, weekday_id, priority):
         """
         指定した曜日の優先度を変更する
-        :param int weekday_id: 曜日 (日=0, 月=1, ..., 土=6)
+        :param int weekday_id: 曜日 (月=0, 火=1, ..., 日=6)
         :param int priority: 優先度 (1~5)
         :raise ValueError: 引数の値が不正
         """
