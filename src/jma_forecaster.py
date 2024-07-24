@@ -1,7 +1,3 @@
-"""
-気象庁のAPIから天気予報を取得する
-"""
-import json
 import requests
 import configparser
 from weather_forecaster import WeatherForecaster
@@ -9,7 +5,9 @@ from weather_forecast import WeatherForecast
 
 
 class JmaForecaster(WeatherForecaster):
-
+    """
+    気象庁から情報を取得する気象予報士クラス
+    """
     def _observe(self):
         config = configparser.ConfigParser()
         config.read('config.ini')
@@ -17,13 +15,13 @@ class JmaForecaster(WeatherForecaster):
         url = config.get('DEFAULT', 'WEATHER_URL')
         certificate = config.get('DEFAULT', 'CERTIFICATE_ROOT')
 
-        return requests.get(url, verify=certificate)
+        return requests.get(url, verify=certificate).json()
 
-    def _covert(self, raw_data: str):
-        json_data = json.loads(raw_data)
+    def _covert(self, raw_data):
+        forecasts = []
 
         # 週間天気の情報を抽出する
-        weekly_data = _extract_weekly_data(json_data)
+        weekly_data = self._extract_weekly_data(raw_data)
 
         # 週間天気の情報から必要な情報を抽出する
         time_defines = []
@@ -32,31 +30,39 @@ class JmaForecaster(WeatherForecaster):
         temps_max = []
         temps_min = []
 
-        for series in weekly_data['series']:
-            time_defines = weekly_data.get('timeDefines', [])
-            for area in series['areas']:
-                pops = area.get('pops', [])
-                temps_max = area.get('tempsMax', [])
-                temps_min = area.get('tempsMin', [])
-                weather_codes = area.get('weatherCodes', [])
+        # codes と pops が入ったオブジェクト、tempsMax と tempsMin が入ったオブジェクトがリストになっている
+        # また、上記はオブジェクトの子要素 areas に入っている
+        # 全体を回して、必要な情報を見つけたら抽出する処理にする
+        for data in weekly_data:
+            # 何回も見つかるが、全部同じ情報なので上書きでOK
+            time_defines = data.get('timeDefines', [])
+            for area in data['areas']:
+                # 必要な情報があれば中身を結合、なければ空リストを結合（空なので影響なし）
+                pops.extend(area.get('pops', []))
+                temps_max.extend(area.get('tempsMax', []))
+                temps_min.extend(area.get('tempsMin', []))
+                weather_codes.extend(area.get('weatherCodes', []))
 
         # データクラスに変換し天気予報を保持する
-        self.weather_forecasts = []
         for i in range(len(time_defines)):
             forecast = WeatherForecast(time_defines[i], weather_codes[i], pops[i], temps_max[i], temps_min[i])
-            self.weather_forecasts.append(forecast)
+            forecasts.append(forecast)
 
+        return forecasts
 
-def _extract_weekly_data(data):
-    # 週間天気の情報(timeSeries)を抽出する
-    max_length = 0
-    target_data = None
+    @staticmethod
+    def _extract_weekly_data(data):
+        # 週間天気の情報(timeSeries)を抽出する
+        max_length = 0
+        target_data = None
 
-    for report in data:
-        for series in report['timeSeries']:
-            length = len(series['timeDefines'])
-            if length > max_length:
-                max_length = length
-                target_data = report['timeSeries']
+        # 各要素のtimeDefinesのリスト長を比較し、最大のオブジェクトを週間天気の情報とする
+        # 大元のオブジェクトが3日間の詳細予報と週間予報に分かれているため
+        for report in data:
+            for series in report['timeSeries']:
+                length = len(series['timeDefines'])
+                if length > max_length:
+                    max_length = length
+                    target_data = report['timeSeries']
 
-    return target_data
+        return target_data
