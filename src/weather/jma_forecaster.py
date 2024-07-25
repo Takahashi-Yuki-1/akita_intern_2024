@@ -1,5 +1,6 @@
 import requests
-import configparser
+
+import config
 from weather.forecaster import WeatherForecaster
 from weather.forecast import WeatherForecast
 
@@ -8,14 +9,10 @@ class JmaForecaster(WeatherForecaster):
     """
     気象庁から情報を取得する気象予報士クラス
     """
+    _url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/050000.json'
+
     def _observe(self):
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-
-        url = config.get('DEFAULT', 'WEATHER_URL')
-        certificate = config.get('DEFAULT', 'CERTIFICATE_ROOT')
-
-        return requests.get(url, verify=certificate).json()
+        return requests.get(self._url, verify=config.CERTIFICATE_ROOT).json()
 
     def _covert(self, raw_data):
         forecasts = []
