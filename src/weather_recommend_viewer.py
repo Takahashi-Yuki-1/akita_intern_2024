@@ -1,13 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
+from setting_gui_manager import open_config_window
 
 class RecommendWeatherView:
     treeview: ttk.Treeview
     label: ttk.Label
     button: ttk.Button
     quit_button: ttk.Button
-
-    WEEKDAY_LIST = ('月', '火', '水', '木', '金', '土', '日')
 
     def __init__(self, root):
         root.title("出社日おすすめお天気アプリ")
@@ -23,20 +22,10 @@ class RecommendWeatherView:
         self.label = ttk.Label(root)
 
     def _make_button(self,root):
-        self.button = ttk.Button(root,text="設定",command=self._config_window)
+        self.button = ttk.Button(root,text="設定",command=open_config_window)
 
     def _make_quit(self,root):
         self.quit_button = ttk.Button(root,text="終了",command=root.quit)
-
-    def _config_window(self):
-        config_win = tk.Toplevel()
-        config_win.geometry("300x100")
-
-        combobox = ttk.Combobox(
-            config_win,
-            values=self.WEEKDAY_LIST,  # set initial value
-        )
-        combobox.pack()
 
     def get_treeview(self):
         return self.treeview

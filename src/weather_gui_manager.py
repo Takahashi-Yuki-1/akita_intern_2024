@@ -4,7 +4,6 @@ from weather_tree_view import WeatherTreeView
 from weather.code import conv_weather_info
 from weather.forecaster_agency import WeatherForecasterAgency, ForecasterType
 
-
 def create_weather_viewer(root):
     view = RecommendWeatherView(root)
 
