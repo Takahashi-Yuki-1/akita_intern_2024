@@ -1,31 +1,24 @@
 import json
-from abc import ABC, abstractmethod
+from weekday_priority.local_storage import LocalStorage
+from weekday_priority.storage import WeekdayPriorityStorage
 
 
 class WeekdayPriorityManager:
     """
     曜日優先度情報を管理するクラス
     """
-    _file_path = './../resource/weekday_priority_data.json'
-
+    _storage: WeekdayPriorityStorage
     _weekday_priorities: dict
 
     def __init__(self):
-        self.load()
-
-    def load(self):
-        """
-        ファイルから曜日優先度の情報をロードする
-        """
-        with open(self._file_path, 'r', encoding='utf-8') as file:
-            self._weekday_priorities = json.load(file)
+        self._storage = LocalStorage()
+        self._weekday_priorities = self._storage.load()
 
     def save(self):
         """
         引数の優先度情報をファイルへ保存する
         """
-        with open(self._file_path, 'w', encoding='utf-8') as file:
-            json.dump(self._weekday_priorities, file, ensure_ascii=False, indent=2)
+        self._storage.save(self._weekday_priorities)
 
     def get_priority(self, weekday_id):
         """
