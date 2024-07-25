@@ -1,5 +1,5 @@
 import requests
-from weather_code import conv_weather_info
+from weather.code import conv_weather_info
 import configparser
 
 
@@ -15,6 +15,7 @@ def get_weather():
     response = requests.get(url, verify=certificate)
     data = response.json()
     return data
+
 
 def get_days():
     weather_data = get_weather()

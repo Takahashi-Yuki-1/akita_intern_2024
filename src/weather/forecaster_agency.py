@@ -1,8 +1,7 @@
 from enum import Enum
-
-from jma_forecaster import JmaForecaster
-from local_forecaster import LocalForecaster
-from weather_forecaster import WeatherForecaster
+from weather.jma_forecaster import JmaForecaster
+from weather.local_forecaster import LocalForecaster
+from weather.forecaster import WeatherForecaster
 
 
 class ForecasterType(Enum):

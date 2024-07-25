@@ -1,13 +1,13 @@
 import json
-from weather_forecast import WeatherForecast
-from weather_forecaster import WeatherForecaster
+from weather.forecast import WeatherForecast
+from weather.forecaster import WeatherForecaster
 
 
 class LocalForecaster(WeatherForecaster):
     """
     ローカルのモックファイルから情報を取得する気象予報士クラス
     """
-    _file_path = './../resource/weather_forecast_mock.json'
+    _file_path = '../resource/weather_forecast_mock.json'
 
     def _observe(self):
         with open(self._file_path, 'r', encoding='utf-8') as raw_data:

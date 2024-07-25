@@ -1,7 +1,7 @@
 """
 曜日の文字列を定義する(datetime準拠)
 """
-WEEKDAYS = {
+WEEKDAY_CHARS = {
     0: "月",
     1: "火",
     2: "水",

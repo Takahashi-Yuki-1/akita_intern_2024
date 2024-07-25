@@ -1,9 +1,6 @@
-"""
-天気予報をパースするためのデータクラス定義
-"""
 import dataclasses
 import datetime
-from weekday import WEEKDAYS
+from weekday import WEEKDAY_CHARS
 
 
 _DATETIME_FORMAT_BEFORE = "%Y-%m-%dT%H:%M:%S+09:00"
@@ -18,7 +15,7 @@ def _convert_date_format(date_before):
     :return: 変換後の日付文字列 (ex. 09/02(月) )
     """
     dt = datetime.datetime.strptime(date_before, _DATETIME_FORMAT_BEFORE)
-    weekday = WEEKDAYS.get(dt.weekday(), "-")
+    weekday = WEEKDAY_CHARS.get(dt.weekday(), "-")
     return _DATE_FORMAT.format(dt.strftime(_DATETIME_FORMAT_AFTER), weekday)
 
 

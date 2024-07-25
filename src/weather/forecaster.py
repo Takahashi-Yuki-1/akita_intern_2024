@@ -1,8 +1,5 @@
-"""
-天気予報を取得する抽象クラスの定義
-"""
 from abc import ABC, abstractmethod
-from weather_forecast import WeatherForecast
+from weather.forecast import WeatherForecast
 
 
 class WeatherForecaster(ABC):

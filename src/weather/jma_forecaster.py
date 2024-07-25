@@ -1,7 +1,7 @@
 import requests
 import configparser
-from weather_forecaster import WeatherForecaster
-from weather_forecast import WeatherForecast
+from weather.forecaster import WeatherForecaster
+from weather.forecast import WeatherForecast
 
 
 class JmaForecaster(WeatherForecaster):
