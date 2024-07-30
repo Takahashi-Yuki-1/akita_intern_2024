@@ -54,7 +54,7 @@ class WeekdayPriorityManager:
         :param int priority: 優先度 (1~5)
         :raise ValueError: 引数の値が不正
         """
-        if 1 > priority | 5 < priority:
+        if 0 > priority | 6 < priority:
             raise ValueError('引数 priority が不正です')
 
         for weekday in self._weekday_priorities:

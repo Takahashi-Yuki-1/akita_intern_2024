@@ -13,6 +13,7 @@ def generate_recommend_text(dates):
     for date in dates:
         if most_recommended_date is None:
             most_recommended_date = date
+            break
 
         if date.recommendation >= most_recommended_date.recommendation:
             most_recommended_date = date

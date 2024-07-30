@@ -1,7 +1,7 @@
 import tkinter as tk
 from weekday_priority.manager import WeekdayPriorityManager
 from weekday import WEEKDAY_CHARS
-from weekday_priority_setting import WeekdayPrioritySetting
+from ui.widget.weekday_priority_setting import WeekdayPrioritySetting
 
 WEEKDAY_NUMBER = 5
 
